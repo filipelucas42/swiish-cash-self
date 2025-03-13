@@ -1,0 +1,110 @@
+{% extends 'app/layouts/base.html' %} {% load static %} {% block title %}Confirm
+Transfer{% endblock %} {% block page_title %}Confirm Transfer{% endblock %}
+{%block content %}
+<div class="text-center">
+  <div class="position-relative d-flex justify-content-center">
+    <img
+      src="{% static 'app/images/red_card.png' %}"
+      width="300"
+      class="img-fluid rounded"
+    />
+    <img
+      src="{% static 'app/images/avalanche_logo.png' %}"
+      width="100"
+      class="img-fluid position-absolute"
+      style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    />
+  </div>
+  <br>
+
+  <form
+    method="POST"
+    class="mx-auto"
+    style="max-width: 280px"
+    action="/send-transaction/"
+  >
+    {% csrf_token %}
+
+    <input type="hidden" name="value" value="{{ value }}" />
+    <p
+      class="text-white text-center fw-bold border-0"
+      style="
+        font-size: 40px;
+        width: 100%;
+        max-width: 250px;
+        margin: 10px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      "
+    >
+      <span id="sendAmount">{{ value }}</span>&nbsp;ETH
+    </p>
+
+    <hr
+      class="mt-1 mb-2"
+      style="border: 1px solid white; width: 50%; margin: auto"
+    />
+
+    <br>
+
+    <div class="mt-2 mb-1 text-start">
+      <label
+        class="form-label d-block"
+        style="
+          font-size: 12px;
+          margin-bottom: 3px;
+          font-weight: bold;
+          color: rgb(188, 188, 188);
+        "
+        >Gas Fees</label
+      >
+      <p
+        class="text-white border-0"
+        style="font-size: 14px; margin: 0; padding: 0"
+      >
+        <span id="gasFees">{{ gas }}</span> ETH
+      </p>
+    </div>
+
+    <input type="hidden" name="recipient" value="{{ recipient }}" />
+    <div class="mt-2 mb-1 text-start">
+      <label
+        class="form-label d-block"
+        style="
+          font-size: 12px;
+          margin-bottom: 3px;
+          font-weight: bold;
+          color: rgb(188, 188, 188);
+        "
+      >
+        Send to
+      </label>
+      <p
+        class="text-white border-0"
+        style="font-size: 14px; margin: 0; padding: 0"
+      >
+        <span id="phoneNumber">{{ recipient }}</span>
+      </p>
+    </div>
+
+    <br>
+
+    <button
+      type="submit"
+      class="btn btn-custom w-100 mt-3"
+      style="
+        background-color: #e84142;
+        color: white;
+        border-radius: 6px;
+        font-family: 'Inter';
+        font-weight: 800;
+        padding: 8px;
+      "
+    >
+      Confirm
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'app/layouts/base.html' %} 
+{% block title %}Register - Crypto Wallet{% endblock %} 
+
+{% block content %}
+{% load static %} 
+<div class="text-center">
+
+  <!-- Logo -->
+  <div class="d-flex justify-content-center align-items-center">
+    <img src="{% static 'app/images/logo_swiish.png' %}" alt="Swiish" style="width: 90px;">
+  </div>
+
+  <div class="my-4 p-2">
+    {% if not user.is_authenticated %}
+    <form
+      method="POST"
+      action="{% url 'verify-code' %}"
+      class="mx-auto"
+      style="max-width: 300px"
+    >
+      {% csrf_token %}
+
+      <label
+        class="form-label text-white text-start d-block"
+        style="font-size: 14px"
+        >Phone Number</label
+      >
+      <div class="d-flex align-items-center mb-3">
+        <div class="me-2 position-relative" style="width: 130px">
+          <span
+            class="position-absolute"
+            style="top: 50%; left: 10px; transform: translateY(-50%)"
+          >
+            <img
+              id="country-flag"
+              src="https://flagcdn.com/w40/pt.png"
+              width="20"
+              alt="Country Flag"
+            />
+          </span>
+
+          <select
+            id="country-code"
+            name="country_code"
+            class="form-control text-white bg-transparent text-center"
+            style="
+              border: 1px solid white;
+              outline: none;
+              font-size: 14px;
+              padding-left: 35px;
+              width: 80px;
+            "
+          >
+            <option value="+351" data-flag="https://flagcdn.com/w40/pt.png">
+              +351
+            </option>
+            <option value="+1" data-flag="https://flagcdn.com/w40/us.png">
+              +1
+            </option>
+            <option value="+44" data-flag="https://flagcdn.com/w40/gb.png">
+              +44
+            </option>
+            <option value="+55" data-flag="https://flagcdn.com/w40/br.png">
+              +55
+            </option>
+          </select>
+        </div>
+
+        <input
+          type="tel"
+          class="form-control text-white bg-transparent"
+          style="border: 1px solid white; outline: none; font-size: 14px"
+          name="phone_number"
+          placeholder="Your phone number"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-custom w-100 mt-3"
+        style="
+          background-color: #e84142;
+          color: white;
+          border-radius: 8px;
+          font-family: 'Inter', sans-serif;
+          font-weight: 800;"
+      >
+        Next
+      </button>
+    </form>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const countrySelect = document.getElementById("country-code");
+    const flagImg = document.getElementById("country-flag");
+
+    countrySelect.addEventListener("change", function () {
+      const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+      const flagUrl = selectedOption.getAttribute("data-flag");
+      if (flagUrl) {
+        flagImg.src = flagUrl;
+      }
+    });
+  });
+</script>
+
+<style>
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  input:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+</style>
+{% endblock %}

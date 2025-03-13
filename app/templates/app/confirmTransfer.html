@@ -1,0 +1,44 @@
+{% extends 'app/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Transaction Confirmed{% endblock %}
+{% block page_title %}Transaction Confirmed{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <!-- Ícone de envio animado -->
+  <div class="d-flex justify-content-center my-4">
+    <span
+      class="material-symbols-outlined"
+      style="font-size: 60px; color: #00c896"
+    >
+      check_circle
+    </span>
+  </div>
+
+  <!-- Mensagem de confirmação -->
+  <p class="text-white fw-bold" style="font-size: 18px">
+    You sent <span style="color:rgb(224, 224, 224); font-size: 16px;">{{ amount }} ETH</span> to
+    <span class="fw-bold">{{ recipient }}</span>
+  </p>
+  <p class="text-white" style="font-size: 14px">
+    The recipient has already received the money
+  </p>
+
+  <!-- Botão para voltar à página inicial -->
+  <a
+    href="{% url 'home' %}"
+    class="btn w-100 mt-3"
+    style="
+      background-color: #e84142;
+      color: white;
+      border-radius: 8px;
+      font-weight: 800;
+      max-width: 300px;
+      display: inline-block;
+    "
+  >
+    Go to home
+  </a>
+</div>
+{% endblock %}

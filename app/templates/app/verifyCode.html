@@ -1,0 +1,37 @@
+{% extends 'app/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Verify Code{% endblock %}
+{% block page_title %}Verify Code{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  
+  <p class="mt-3 text-white" style="font-size: 14px;">
+    Please provide the code we sent to
+    <br>
+    <span class="fw-bold">{{ phone_number }}</span>
+  </p>
+
+  <form method="POST" class="mx-auto" action="{% url 'confirm-otp' %}" style="max-width: 300px;">
+    {% csrf_token %}
+    <input type="hidden" name="phone_number" value="{{ phone_number }}" />
+
+    <div class="d-flex justify-content-center mt-3">
+      <input type="text" name="code" maxlength="4"
+        class="form-control text-white text-center bg-transparent fw-bold border-0"
+        style="border-bottom: 2px solid white; outline: none; font-size: 32px; width: 100px;"
+        placeholder="----" required />
+    </div>
+
+    <p class="text-white mt-3" style="font-size: 12px; cursor: pointer;">
+    </p>    
+
+    <button type="submit" class="btn btn-custom w-100"
+      style="background-color: #E84142; color: white; border-radius: 8px; font-weight: 800; font-family: 'Inter'; font-size: 16px;">
+      Next
+    </button>
+  </form>
+
+</div>
+{% endblock %}
