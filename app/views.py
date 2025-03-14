@@ -8,8 +8,25 @@ from app.models import User, Wallet, OTP, LoginUserID
 from app import service
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import AccessMixin
+from functools import wraps
 
-class CustomView(View):
+def login_required_with_redirect(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('http://127.0.0.1:3000')  # Change 'home' to your desired URL name
+        return view_func(request, *args, **kwargs)
+    return wrapper
+class LoginRequiredMixin(AccessMixin):
+    """Verify that the current user is authenticated and has required permissions."""
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('http://127.0.0.1:3000')  # Change 'home' to your desired URL name
+        return super().dispatch(request, *args, **kwargs)
+    
+class CustomView(View, LoginRequiredMixin):
     http_method_names = ['get', 'post', 'put', 'delete', 'patch']
 
     def dispatch(self, *args, **kwargs):
@@ -19,15 +36,18 @@ class CustomView(View):
         if method == 'delete':
             return self.delete(*args, **kwargs)
         return super(CustomView, self).dispatch(*args, **kwargs)
-    
+
+@login_required_with_redirect
 def home(request):
     if request.user.is_authenticated:
         return redirect('send')
     return render(request, 'app/home.html')
 
+@login_required_with_redirect
 def sendtest(request):
     return render(request, 'app/sendtest.html')
 
+@login_required_with_redirect
 def send_transaction(request):
     user = request.user
     value = request.POST.get('value')
@@ -47,6 +67,7 @@ def send_transaction(request):
     context["recipient"] = recipient
     return render(request, 'app/confirmTransfer.html', context)
 
+@login_required_with_redirect
 def confirm(request):
     user = request.user
     value = request.POST.get('value')
@@ -73,6 +94,7 @@ def confirm(request):
     context["recipient"] = recipient
     return render(request, 'app/confirm.html', context)
 
+@login_required_with_redirect
 def send(request):
     context = {}
     country_list = [
@@ -90,45 +112,28 @@ def send(request):
         context["wallet_balance"] =  wallet_balance
     return render(request, 'app/send.html', context)
 
+@login_required_with_redirect
 def history(request):
     return render(request, 'app/history.html')
 
+@login_required_with_redirect
 def page(request):
     return render(request, "app/page1.html")
-    
+
+@login_required_with_redirect
 def index(request):
     response = render(request, 'app/index.html')
     return response
 
-def verify_code(request):
-    context = {}
-    phone_number = request.POST.get('phone_number')
-    country_code = request.POST.get('country_code')
-    full_phone_number = f'{country_code}{phone_number}'
-    try:
-        User.objects.get(handle=full_phone_number)
-    except ObjectDoesNotExist:
-        service.create_user(full_phone_number)
-    context["phone_number"] = full_phone_number
-    
-    return render(request, 'app/verifyCode.html', context)
-
+@login_required_with_redirect
 def logout_handler(request):
     logout(request)
-    return redirect('home')
-
-def confirm_otp(request):
-    phone_number = request.POST.get("phone_number")
-    otp = request.POST.get("code")
-    user = User.objects.get(handle=phone_number)
-    if user.handle.startswith("+" + otp):
-        login(request, user)
-        return redirect('send')
     return redirect('home')
 
 def self(request):
     return HttpResponse(request.body)
 
+@login_required_with_redirect
 def confirm_transfer(request):
     response = render(request, 'app/confirmTransfer.html')
     return response

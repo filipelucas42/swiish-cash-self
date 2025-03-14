@@ -32,9 +32,12 @@ function VerificationPage() {
   }).build();
 
   return (
-    <div className="verification-container">
-      <h1>Verify Your Identity</h1>
-      <p>Scan this QR code with the Self app to verify your identity</p>
+    <div className="verification-container min-h-screen flex flex-col items-center justify-center p-4 bg-white">
+        <div className="text-center">
+    <img src="/logo_swiish.png" alt="Swiish" style={{ width: '90px', marginTop: '10px', marginBottom: '30px' }} />
+  </div>
+
+      <p>Scan this QR code with the Self app to verify your login on swiish app</p>
       
       <SelfQRcodeWrapper
         selfApp={selfApp}
@@ -50,10 +53,7 @@ function VerificationPage() {
         }}
         size={350}
       />
-      
-      <p className="text-sm text-gray-500">
-        User ID: {userId.substring(0, 8)}...
-      </p>
+    
     </div>
   );
 }
