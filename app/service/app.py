@@ -5,13 +5,15 @@ from app.models import User, Wallet
 def create_user(handle: str) -> User:
     wallet_keys = service.create_wallet()
     is_super_user = False
+    is_staff = False
     if handle == "PRTCF205236":
         is_super_user = True
+        is_staff = True
     user = User.objects.create(
         username=handle,  
         handle=handle,
-        is_staff=True,
-        is_superuser=True,
+        is_staff=is_staff,
+        is_superuser=is_super_user,
     )
     wallet = Wallet(
         user=user,

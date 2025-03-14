@@ -10,8 +10,6 @@ services:
       dockerfile: Dockerfile-nextjs
     ports:
       - "3000:3000"
-    volumes:
-      - ./nextjs:/app
     environment:
       - NODE_ENV=development
     depends_on:
