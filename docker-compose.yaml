@@ -3,13 +3,13 @@ services:
   app:
    build: .
    ports:
-     - "8090:8000"
+     - "8091:8000"
   
   nextjs:
     build:
       dockerfile: Dockerfile-nextjs
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - NODE_ENV=development
     depends_on:
