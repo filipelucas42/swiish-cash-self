@@ -4,8 +4,16 @@ services:
    build: .
    ports:
      - "8091:8000"
-   volumes:
-     - db.sqlite3:/app/db.sqlite3
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+
   nextjs:
     build:
       dockerfile: Dockerfile-nextjs
