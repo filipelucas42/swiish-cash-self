@@ -15,7 +15,7 @@ def login_required_with_redirect(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('http://127.0.0.1:3000')  # Change 'home' to your desired URL name
+            return redirect('https://login.swiish.money')  # Change 'home' to your desired URL name
         return view_func(request, *args, **kwargs)
     return wrapper
 class LoginRequiredMixin(AccessMixin):
@@ -23,7 +23,7 @@ class LoginRequiredMixin(AccessMixin):
     
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('http://127.0.0.1:3000')  # Change 'home' to your desired URL name
+            return redirect('https://login.swiish.money')  # Change 'home' to your desired URL name
         return super().dispatch(request, *args, **kwargs)
     
 class CustomView(View, LoginRequiredMixin):
@@ -55,7 +55,8 @@ def send_transaction(request):
 
     wallet_from = Wallet.objects.get(user=user)
 
-    if recipient.startswith("+"):
+    print(recipient)
+    if not recipient.startswith("0x"):
         wallet_to = Wallet.objects.get(user__handle=recipient)
         print("Wallet to: ", wallet_to.address)
         address = wallet_to.address
@@ -71,9 +72,9 @@ def send_transaction(request):
 def confirm(request):
     user = request.user
     value = request.POST.get('value')
-    phone_number = request.POST.get('passport_number')
+    passport_number = request.POST.get('passport_number')
     country_code = request.POST.get('country_code')
-    handle = f'{country_code}{phone_number}'
+    handle = f'{country_code}{passport_number}'
     address = request.POST.get('address')
     if address == "":
         recipient = handle
@@ -144,6 +145,7 @@ class Login(CustomView):
         login_user_id = LoginUserID.objects.filter(user_uuid=user_uuid).first()
         user = login_user_id.user
         login_user_id.delete()
+        login_user_id.save()
         login(request, user)
         return redirect('send')
         

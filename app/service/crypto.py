@@ -72,14 +72,14 @@ def estimate_gas_for_transfer(from_address: str, to_address: str, amount_avax: f
         print(f"Error estimating gas: {e}")
         return None
 
-def send_transaction(from_address: str, to_address: str, amount_avax: float, private_key: str):
+def send_transaction(from_address: str, to_address: str, amount_eth: float, private_key: str):
     """
     Send ETH from one address to another
     """
-    gas_for_transfer = estimate_gas_for_transfer(from_address, to_address, amount_avax)
+    gas_for_transfer = estimate_gas_for_transfer(from_address, to_address, amount_eth)
     try:
         # Convert ETH amount to Wei
-        amount_wei = w3.to_wei(amount_avax, 'ether')
+        amount_wei = w3.to_wei(amount_eth, 'ether')
         
         # Get the nonce
         nonce = w3.eth.get_transaction_count(from_address)

@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     // Initialize and configure the verifier
     const selfBackendVerifier = new SelfBackendVerifier(
       'https://forno.celo.org',
-      'SwiishIt'
+      'Swiish'
     );
     
     // Verify the proof
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       formData.append('country', country);
       formData.append('passport_number', passportNumber);
       formData.append('user_id', userId);
-      const response = await fetch( "http://127.0.0.1:8000/create-login/", {
+      const response = await fetch( "https://swiish.money/create-login/", {
         method: 'POST',
         body: formData
       })
