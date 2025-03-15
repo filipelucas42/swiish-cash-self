@@ -37,7 +37,7 @@ function VerificationPage() {
     <img src="/logo_swiish.png" alt="Swiish" style={{ width: '90px', marginTop: '10px', marginBottom: '30px' }} />
   </div>
 
-      <p>Scan this QR code with the Self app to verify your login on swiish app</p>
+      <p>Scan this QR code with the self.xyz app to login on Swiish</p>
       
       <SelfQRcodeWrapper
         selfApp={selfApp}
