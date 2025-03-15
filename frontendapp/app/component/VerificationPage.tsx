@@ -38,7 +38,7 @@ function VerificationPage() {
   </div>
 
       <p>Scan this QR code with the self.xyz app to login on Swiish</p>
-      
+      <p>Running on Sepolia test network</p>
       <SelfQRcodeWrapper
         selfApp={selfApp}
         onSuccess={() => {
