@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-w7l#8j24pk9!!fm(1%z^7vew7jd=cv1mms*+4++2p&8b3x1hra
 DEBUG = True
 
 ALLOWED_HOSTS = ["*", 'swiish.money']
-CSRF_TRUSTED_ORIGINS = ['swiish.money']
+CSRF_TRUSTED_ORIGINS = ['https://swiish.money']
 
 
 # Application definition
